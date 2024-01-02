@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-app
+  labels:
+    app: db-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-app
+  template:
+    metadata:
+      labels:
+        app: db-app
+    spec:
+      containers:
+      - name: db-container
+        image: pull vprofile/vprofiledb:latest
+        ports:
+        - name: db-port
+          containerPort: 3306
+        volumeMount:
+        - name: volume1
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: volume1
+        awsElasticBlockStore:
+          volumeid: vol-0826a7f7a778fe522
+          fsType: ext4
+      initContainers:
+      - name: busybox
+        image: busybox:latest
+        volumeMount:
+        - name: volume1
+          mountPath: /var/lib/mysql
+          arg: ["rm","rf","var/lib/mysql/lost+found"]
