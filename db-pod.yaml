@@ -28,6 +28,12 @@ spec:
         awsElasticBlockStore:
           volumeid: vol-0826a7f7a778fe522
           fsType: ext4
+      - name: volume2
+        valueFrom:
+            secretKeyRef:
+                name: app-kupe-secret
+                key: db-pass
+                optional: false
       initContainers:
       - name: busybox
         image: busybox:latest
@@ -37,3 +43,4 @@ spec:
           arg: ["rm","rf","var/lib/mysql/lost+found"]
       nodeSelector:
         zone: us-east-1a
+      restartPolicy: Never
