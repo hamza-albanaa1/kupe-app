@@ -35,3 +35,5 @@ spec:
         - name: volume1
           mountPath: /var/lib/mysql
           arg: ["rm","rf","var/lib/mysql/lost+found"]
+      nodeSelector:
+        zone: us-east-1a
